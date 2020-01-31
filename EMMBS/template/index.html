@@ -1,4 +1,5 @@
 {% load static %}
+{% static 'images' as basURL %}
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -150,13 +151,14 @@
     <!-- Hero Section Begin -->
     <section class="hero-section">
         <div class="hero-items owl-carousel">
-            <div class="single-hero-item set-bg" data-setbg="{% static 'img/Room/R4.jpg' %}">
+            	{% for Room in Room_detail %}
+            <div class="single-hero-item set-bg" data-setbg="{{Room.img.url}}">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
                             <div class="hero-text">
-                                <p class="room-location"><i class="icon_pin"></i> location</p>
-                                <h2>Name of Meeting Room</h2>
+                                <p class="room-location"><i class="icon_pin"></i> {{Room.RoomNumber}}</p>
+                                <h2>{{Room.Name}}</h2>
                                 <div class="room-price">
                                     <span>Capacity:</span>
                                     <p>10 Member</p>
@@ -189,7 +191,7 @@
                     </div>
                 </div>
             </div>
-
+                {% endfor %}
         </div>
         <div class="thumbnail-pic">
             <div class="thumbs owl-carousel">

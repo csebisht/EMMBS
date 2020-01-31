@@ -1,5 +1,7 @@
 from django.shortcuts import render
-
+from .models import Room
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    room = Room.objects.all()
+    print(room)
+    return render(request, "index.html", {"Room_detail": room})
