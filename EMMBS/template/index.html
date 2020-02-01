@@ -152,40 +152,45 @@
     <section class="hero-section">
         <div class="hero-items owl-carousel">
             	{% for Room in Room_detail %}
-            <div class="single-hero-item set-bg" data-setbg="{{Room.img.url}}">
+            <div class="single-hero-item set-bg" data-setbg="{{Room.RoomImage.url}}">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 offset-lg-2">
                             <div class="hero-text">
-                                <p class="room-location"><i class="icon_pin"></i> {{Room.RoomNumber}}</p>
+                                <p class="room-location"><i class="icon_pin"></i> {{Room.RoomDescription}}</p>
                                 <h2>{{Room.Name}}</h2>
+                                {% for roomEquip in roomEquipment %}
+
+                                 {% if roomEquip.RoomId == Room.id  %}
                                 <div class="room-price">
                                     <span>Capacity:</span>
-                                    <p>10 Member</p>
+                                    <p>{{roomEquip.SeatAvail}}</p>
                                 </div>
                                 <ul class="room-features">
                                       <li>
                                         <i class="fa fa-users"></i>
-                                        <p>10 Member</p>
+                                        <p>{{roomEquip.SeatAvail}} Member</p>
                                     </li>
                                     <li>
                                         <i class="fa fa-arrows"></i>
-                                        <p>5201 sqft</p>
+                                        <p>{{roomEquip.Area}} sqft</p>
                                     </li>
                                     <li>
                                         <i class="fa fa-wifi"></i>
-                                        <p>100 Mbps</p>
+                                        <p>{{roomEquip.Speed}} Mbps</p>
                                     </li>
                                     <li>
                                         <i class="fa fa-television"></i>
-                                        <p>Yes</p>
+                                        <p>{{roomEquip.Projector}}</p>
                                     </li>
 
                                     <li>
                                         <i class="fa fa-lock"></i>
-                                        <p>Yes</p>
+                                        <p>{{roomEquip.otherEquip}}</p>
                                     </li>
                                 </ul>
+                                 {% endif %}
+                                 {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -195,9 +200,11 @@
         </div>
         <div class="thumbnail-pic">
             <div class="thumbs owl-carousel">
+                	{% for Room in Room_detail %}
                 <div class="item">
-                    <img src="{% static 'img/hero/dot-1.jpg' %}" alt="">
+                    <img src="{{Room.RoomImage.url}}" alt="">
                 </div>
+                 {% endfor %}
 
             </div>
         </div>

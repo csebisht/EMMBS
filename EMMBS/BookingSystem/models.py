@@ -73,3 +73,12 @@ class MeetingGuest(models.Model):
     CreationBy = models.IntegerField()
 
 
+class RoomEquipment(models.Model):
+    RoomId=models.IntegerField()
+    SeatAvail=models.TextField()
+    Area = models.TextField()
+    Speed = models.TextField()
+    Projector=models.BooleanField(default=True)
+    otherEquip=models.TextField()
+
+
