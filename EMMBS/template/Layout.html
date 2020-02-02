@@ -9,7 +9,7 @@
     <meta name="keywords" content="Azenta, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>EMMBS</title>
+    <title>EMMBS | Template</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
@@ -49,7 +49,7 @@
         <nav class="main-menu">
             <ul>
                 <li><a href="/index">Home</a></li>
-                <li><a href="/MeetingList">Property</a></li>
+                <li><a href="/property">Property</a></li>
                 <li><a href="./about-us.html">Agets</a></li>
                 <li><a href="./blog.html">News</a></li>
                 <li><a href="./property-details.html">Pages</a></li>
@@ -112,7 +112,7 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="logo">
-                            <a href="/"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                            <a href="./index.html"><img src="{% static 'img/logo.png' %}" alt=""></a>
                         </div>
                     </div>
                     <div class="col-lg-9">
@@ -149,103 +149,15 @@
     <!-- Header End -->
 
     <!-- Hero Section Begin -->
-    <section class="hero-section">
-        <div class="hero-items owl-carousel">
-            	{% for Room in Room_detail %}
-            <div class="single-hero-item set-bg" data-setbg="{{Room.RoomImage.url}}">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 offset-lg-2">
-                            <div class="hero-text">
-                                <p class="room-location"><i class="icon_pin"></i> {{Room.RoomDescription}}</p>
-                                <h2>{{Room.Name}}</h2>
-                                {% for roomEquip in roomEquipment %}
 
-                                 {% if roomEquip.RoomId == Room.id  %}
-                                <div class="room-price">
-                                    <span>Capacity:</span>
-                                    <p>{{roomEquip.SeatAvail}}</p>
-                                </div>
-                                <ul class="room-features">
-                                      <li>
-                                        <i class="fa fa-users"></i>
-                                        <p>{{roomEquip.SeatAvail}} Member</p>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-arrows"></i>
-                                        <p>{{roomEquip.Area}} sqft</p>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-wifi"></i>
-                                        <p>{{roomEquip.Speed}} Mbps</p>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-television"></i>
-                                        <p>{{roomEquip.Projector}}</p>
-                                    </li>
-
-                                    <li>
-                                        <i class="fa fa-lock"></i>
-                                        <p>{{roomEquip.otherEquip}}</p>
-                                    </li>
-                                </ul>
-                                 {% endif %}
-                                 {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                {% endfor %}
-        </div>
-        <div class="thumbnail-pic">
-            <div class="thumbs owl-carousel">
-                	{% for Room in Room_detail %}
-                <div class="item">
-                    <img src="{{Room.RoomImage.url}}" alt="">
-                </div>
-                 {% endfor %}
-
-            </div>
-        </div>
-    </section>
     <!-- Hero Section End -->
 
     <!-- Search Form Section Begin -->
-    <div class="search-form">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="search-form-text">
-                        <div class="search-text">
-                            <i class="fa fa-search"></i>
-                            Find Room Availability
-                        </div>
 
-                    </div>
-                    <form action="/MeetingList/" method="post" class="filter-form">
-                         {% csrf_token %}
-                        	{% for message in messages  %}
-							{{ message }}
-							{% endfor %}
-                        <div class="first-row">
-                                <input type="date" name="MeetingDate"/>
-                                <input type="time" name="StartTime"/>
-                                <input type="time" name="EndTime"/>
-                        </div>
-                        <div class="second-row">
-
-
-
-                            <button  class="search-btn">Search</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Search Form Section End -->
+    {% block content %}
 
+    {% endblock %}
     <!-- How It Works Section Begin -->
     <section class="howit-works spad">
         <div class="container">
