@@ -228,7 +228,15 @@
                         	{% for message in messages  %}
 							{{ message }}
 							{% endfor %}
+
                         <div class="first-row">
+
+                             <select name="RoomId">
+                                  <option value="">Select Room</option>
+                                   {% for Room in Room_detail %}
+                                 <option value="{{Room.id}}">{{Room.Name}}</option>
+                                  {% endfor %}
+                                   </select>
                                 <input type="date" name="MeetingDate"/>
                                 <input type="time" name="StartTime"/>
                                 <input type="time" name="EndTime"/>

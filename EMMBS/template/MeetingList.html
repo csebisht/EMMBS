@@ -211,9 +211,12 @@
 
                     <h4 class="property-title">Room</h4>
                     <div class="property-list">
+
                         {% for Room in Room_detail %}
+
                      <form action="/BookMeeting/" method="post" class="filter-form">
                           {% csrf_token %}
+
                         <div class="single-property-item">
                             <div class="row">
                                 <div class="col-md-4">
@@ -272,7 +275,9 @@
                                  <button  class="btn btn-default">Book</button>
                             </div>
                         </div>
+
                      </form>
+
                         {% endfor %}
 
                     </div>

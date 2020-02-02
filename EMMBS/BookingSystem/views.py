@@ -26,40 +26,43 @@ def BookMeeting(request):
             return redirect('MeetingList')
     return render(request ,"MeetingList.html")
 
-def MeetingList(request):
-    if request.method == 'POST':
-        MeetingDate = request.POST['MeetingDate']
-        StartTime = request.POST['StartTime']
-        EndTime = request.POST['EndTime']
-        room = Room.objects.all()
-        roomequip = RoomEquipment.objects.all()
-        for meeting in Meeting.objects.filter(MeetingDate=MeetingDate).filter(StartTime=StartTime).filter(EndTime=EndTime):
-            print("meeting  " ,meeting)
-            for Rroom in room:
-                print("Room ",Rroom)
-                if Rroom.id == meeting.roomId:
-                     print("asd")
-                else:
-                     print("asdasd")
-        if Meeting.objects.filter(MeetingDate=MeetingDate).filter(StartTime=StartTime).filter(EndTime=EndTime).exists():
-            messages.info(request, "Meeting Booked Already")
-            return redirect('/')
-        else:
-            return render(request,'MeetingList.html',{"Room_detail": room,"roomEquipment":roomequip,"MeetingDate":MeetingDate,"StartTime":StartTime,"EndTime":EndTime})
-    return  redirect('/')
-
 def MeetingList12(request):
     if request.method == 'POST':
         MeetingDate = request.POST['MeetingDate']
         StartTime = request.POST['StartTime']
         EndTime = request.POST['EndTime']
+        RoomId = request.POST['RoomId']
         room = Room.objects.all()
         roomequip = RoomEquipment.objects.all()
-
-        if Meeting.objects.filter(MeetingDate=MeetingDate).filter(StartTime=StartTime).filter(EndTime=EndTime).exists():
+        for meeting in Meeting.objects.filter(RoomId=RoomId).filter(MeetingDate=MeetingDate).filter(StartTime=StartTime).filter(EndTime=EndTime):
+            print("meeting  " ,meeting)
+            for Rroom in room:
+                print("Room ",Rroom)
+                if Rroom.id == meeting.RoomId:
+                     print("Meeting Booked Already Room",meeting.RoomId)
+                else:
+                     print("Meeting Booked Free Room",meeting.RoomId)
+        if Meeting.objects.filter(RoomId=RoomId).filter(MeetingDate=MeetingDate).filter(StartTime=StartTime).filter(EndTime=EndTime).exists():
             messages.info(request, "Meeting Booked Already")
             return redirect('/')
         else:
-            Meeting.object.get()
+            messages.info(request, "Meeting Booked Successfully")
             return render(request,'MeetingList.html',{"Room_detail": room,"roomEquipment":roomequip,"MeetingDate":MeetingDate,"StartTime":StartTime,"EndTime":EndTime})
+    return  redirect('/')
+
+def MeetingList(request):
+    if request.method == 'POST':
+        MeetingDate = request.POST['MeetingDate']
+        StartTime = request.POST['StartTime']
+        EndTime = request.POST['EndTime']
+        RoomId = request.POST['RoomId']
+        room = Room.objects.all()
+        roomequip = RoomEquipment.objects.all()
+        if Meeting.objects.filter(RoomId=RoomId).filter(MeetingDate=MeetingDate).filter(StartTime=StartTime).filter(EndTime=EndTime).exists():
+            messages.info(request, "Meeting Booked Already")
+            return redirect('/')
+        else:
+            messages.info(request, "Meeting Booked Successfully")
+            print("RoomId ", RoomId)
+            return render(request,'MeetingList.html',{"Room_detail": room,"roomEquipment":roomequip,"MeetingDate":MeetingDate,"StartTime":StartTime,"EndTime":EndTime,"RoomId":RoomId})
     return  redirect('/')
