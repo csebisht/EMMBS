@@ -9,13 +9,6 @@ from calendar import HTMLCalendar
 from django.utils.safestring import mark_safe
 
 
-
-
-#admin.site.register(Event)
-#class EventAdmin(admin.ModelAdmin):
-    #list_display = ['day', 'start_time', 'end_time', 'notes']
-
-
 # Register your models here.
 
 class EventAdmin(admin.ModelAdmin):
