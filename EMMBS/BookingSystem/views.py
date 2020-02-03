@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
-from .models import Room,RoomEquipment,Meeting
+from .models import Room,RoomEquipment,Meeting,Event
 from django.contrib import messages
+
 # Create your views here.
 def index(request):
     room = Room.objects.all()
@@ -57,7 +58,10 @@ def MeetingList(request):
         EndTime = request.POST['EndTime']
         RoomId = request.POST['RoomId']
         room = Room.objects.all()
+        #room=room.exclude(id=RoomId)
         roomequip = RoomEquipment.objects.all()
+        for i in Meeting.objects.filter(MeetingDate=MeetingDate).filter(StartTime=StartTime).filter(EndTime=EndTime):
+            print(i.id)
         if Meeting.objects.filter(RoomId=RoomId).filter(MeetingDate=MeetingDate).filter(StartTime=StartTime).filter(EndTime=EndTime).exists():
             messages.info(request, "Meeting Booked Already")
             return redirect('/')
@@ -66,3 +70,10 @@ def MeetingList(request):
             print("RoomId ", RoomId)
             return render(request,'MeetingList.html',{"Room_detail": room,"roomEquipment":roomequip,"MeetingDate":MeetingDate,"StartTime":StartTime,"EndTime":EndTime,"RoomId":RoomId})
     return  redirect('/')
+
+
+def Calender(request):
+    event=Event.objects.all()
+    cal = EventCalendar()
+    print(cal)
+    return render(request, 'Calender.html',{"Calender":cal})
