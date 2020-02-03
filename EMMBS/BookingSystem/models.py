@@ -82,3 +82,5 @@ class RoomEquipment(models.Model):
     otherEquip=models.TextField()
 
 
+
+
