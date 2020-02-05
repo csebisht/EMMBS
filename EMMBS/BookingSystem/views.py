@@ -5,6 +5,7 @@ from .utils import EventCalendar
 import datetime
 from django.utils.safestring import mark_safe
 
+
 # Create your views here.
 def index(request):
     room = Room.objects.all()
@@ -83,8 +84,8 @@ def Calenderasd(request):
 
 
 def Calender(request, year=datetime.datetime.now().year, month=datetime.datetime.now().month):
-  event = Event.objects.order_by('date').filter(
-    my_date__year=year, my_date__month=month
+  event = Event.objects.order_by('day').filter(
+    year=year, month=month
   )
   cal = WorkoutCalendar(event).formatmonth(year, month)
-  return render_to_response('index.html', {'calendar': mark_safe(cal),})
+  return render('index.html', {'Calendar': mark_safe(cal)}) #render_to_response
