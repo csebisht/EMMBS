@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
-from .models import Room,RoomEquipment,Meeting,Event
+from .models import Room,RoomEquipment,Meeting,Event,WorkoutCalendar
 from django.contrib import messages
+from .utils import EventCalendar
+import datetime
+from django.utils.safestring import mark_safe
 
 # Create your views here.
 def index(request):
@@ -72,8 +75,16 @@ def MeetingList(request):
     return  redirect('/')
 
 
-def Calender(request):
+def Calenderasd(request):
     event=Event.objects.all()
     cal = EventCalendar()
-    print(cal)
-    return render(request, 'Calender.html',{"Calender":cal})
+    print("cal",cal)
+    return render(request, 'index.html',{"Calender":cal})
+
+
+def Calender(request, year=datetime.datetime.now().year, month=datetime.datetime.now().month):
+  event = Event.objects.order_by('date').filter(
+    my_date__year=year, my_date__month=month
+  )
+  cal = WorkoutCalendar(event).formatmonth(year, month)
+  return render_to_response('index.html', {'calendar': mark_safe(cal),})

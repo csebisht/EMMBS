@@ -6,6 +6,8 @@ import calendar
 from django.urls import reverse
 from calendar import HTMLCalendar
 from django.utils.safestring import mark_safe
+from .utils import EventCalendar
+
 
 admin.site.register(Employee)
 admin.site.register(Building)
