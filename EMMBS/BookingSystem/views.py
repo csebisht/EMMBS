@@ -1,10 +1,15 @@
 from django.shortcuts import render,redirect
-from .models import Room,RoomEquipment,Meeting,Event,WorkoutCalendar
+from .models import Room,RoomEquipment,Meeting,MeetEvent
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from .utils import EventCalendar
-import datetime
+from django.views import generic
+from .utils import Calendar
+#from datetime import datetime
+from datetime import datetime , date, time,timedelta
 from django.utils.safestring import mark_safe
-
+import calendar
+from .forms import EventForm
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -76,16 +81,53 @@ def MeetingList(request):
     return  redirect('/')
 
 
-def Calenderasd(request):
-    event=Event.objects.all()
-    cal = EventCalendar()
-    print("cal",cal)
-    return render(request, 'index.html',{"Calender":cal})
 
 
-def Calender(request, year=datetime.datetime.now().year, month=datetime.datetime.now().month):
-  event = Event.objects.order_by('day').filter(
-    year=year, month=month
-  )
-  cal = WorkoutCalendar(event).formatmonth(year, month)
-  return render('index.html', {'Calendar': mark_safe(cal)}) #render_to_response
+class CalendarView(generic.ListView):
+    model = MeetEvent
+    template_name = 'Newcalendar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        d = get_date(self.request.GET.get('month', None))
+        cal = Calendar(d.year, d.month)
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
+        return context
+
+
+
+def prev_month(d):
+    first = d.replace(day=1)
+    prev_month = first - timedelta(days=1)
+    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
+    return month
+
+def next_month(d):
+    days_in_month = calendar.monthrange(d.year, d.month)[1]
+    last = d.replace(day=days_in_month)
+    next_month = last + timedelta(days=1)
+    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
+    return month
+
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()
+
+
+def event(request, event_id=None):
+    instance = MeetEvent()
+    if event_id:
+        instance = get_object_or_404(Event, pk=event_id)
+    else:
+        instance = MeetEvent()
+
+    form = EventForm(request.POST or None, instance=instance)
+    if request.POST and form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('Calender'))
+    return render(request, 'event.html', {'form': form})
